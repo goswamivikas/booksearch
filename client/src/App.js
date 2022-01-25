@@ -7,13 +7,13 @@ function App() {
   return (
     <div
       css={{
-        border: "1px dashed grey",
+        // border: "1px dashed grey",
         minHeight: "100vh",
         width: "100vw",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        paddingTop: "30vh",
+        padding: "2vh",
       }}
     >
       <Home></Home>

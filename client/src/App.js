@@ -2,6 +2,7 @@
 /** @jsxRuntime classic */
 import { jsx } from "@emotion/react";
 import Home from "screens/Home";
+import Book from "screens/Book";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         padding: "2vh",
       }}
     >
-      <Home></Home>
+      {/* <Home></Home> */}
+      <Book></Book>
     </div>
   );
 }

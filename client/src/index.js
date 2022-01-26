@@ -5,13 +5,21 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Book from "screens/Book";
+import { ErrorBoundary } from "react-error-boundary";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="book/:bookId" element={<Book />} />
+        <Route
+          path="book/:bookId"
+          element={
+            <ErrorBoundary FallbackComponent={<div>Error on book page</div>}>
+              <Book />
+            </ErrorBoundary>
+          }
+        />
         <Route
           path="*"
           element={

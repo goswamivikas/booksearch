@@ -30,9 +30,7 @@ function BookList({ books }) {
         </Link>
       ))}
     </div>
-  ) : (
-    <div>No Books</div>
-  );
+  ) : null;
 }
 
 export default BookList;

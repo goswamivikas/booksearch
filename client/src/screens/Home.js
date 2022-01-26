@@ -5,15 +5,23 @@ import BookList from "components/BookList";
 
 import * as React from "react";
 import { BsSearch } from "react-icons/bs";
+import * as constants from "utils/constants";
 
 export default function Home() {
   const [value, setValue] = React.useState("");
   const [queried, setQueried] = React.useState(false);
-  const [status, setStatus] = React.useState("loading");
+  const [status, setStatus] = React.useState(constants.STATUS.idle);
   const [books, setBooks] = React.useState(null);
+  const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
     if (!queried) return;
+    if (value === "") {
+      setBooks(null);
+      setQueried(false);
+      return;
+    }
+    setStatus(constants.STATUS.loading);
     fetch(
       `https://www.googleapis.com/books/v1/volumes?maxResults=20&q=${value}`,
       {
@@ -25,12 +33,18 @@ export default function Home() {
       .then((data) => {
         setBooks(data);
         setQueried(false);
+        setStatus(constants.STATUS.success);
+      })
+      .catch((e) => {
+        console.log(e);
+        setError(error);
+        setStatus(constants.STATUS.error);
+        setBooks(null);
       });
-  }, [value, queried]);
+  }, [value, queried, status]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("queried");
     setQueried(true);
   };
 
@@ -38,17 +52,28 @@ export default function Home() {
     setValue(e.target.value);
   };
 
+  const totalItems = books?.totalItems;
+
+  const searchMessage = () => {
+    if (queried && value === "")
+      return "Please type a keyword to get the results";
+    if (status === constants.STATUS.idle) return;
+    if (status === constants.STATUS.loading) return "loading...";
+    if (status === constants.STATUS.error) return error?.message;
+    if (status === constants.STATUS.success) {
+      return totalItems > 0
+        ? `Showing 1-${Math.min(20, totalItems)} of ${totalItems} matches`
+        : "no matches found";
+    }
+  };
+
   return (
     <div
       css={{
         "@media (min-width: 480px)": {
-          // backgroundColor: "#000",
-          // color: "#fff",
-          // gridTemplateColumns: "1fr 1fr",
           width: "80%",
         },
         width: "100%",
-        // border: "2px solid green",
       }}
     >
       <form onSubmit={handleSubmit}>
@@ -80,7 +105,12 @@ export default function Home() {
           <BsSearch css={{}}></BsSearch>
         </button>
       </form>
-      {!books && !queried && value === "" ? (
+      <p css={{ padding: "1rem", fontSize: "12px", color: "grey" }}>
+        {searchMessage()}
+      </p>
+      {status === constants.STATUS.success && totalItems > 0 ? (
+        <BookList books={books} />
+      ) : (
         <div
           css={{
             width: "100%",
@@ -96,21 +126,7 @@ export default function Home() {
           <p>booksearch</p>
           <p>app</p>
         </div>
-      ) : null}
-      {books?.totalItems > 0 ? (
-        <>
-          <p css={{ padding: "1rem", fontSize: "12px", color: "grey" }}>
-            {" "}
-            Showing 1-{Math.min(20, books?.totalItems)} of {books?.totalItems}{" "}
-            matches
-          </p>
-          <BookList books={books} />
-        </>
-      ) : queried ? (
-        <p>Loading...</p>
-      ) : books?.totalItems === 0 ? (
-        <p>No Matches Found.</p>
-      ) : null}
+      )}
     </div>
   );
 }

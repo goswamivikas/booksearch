@@ -3,6 +3,7 @@
 import { jsx } from "@emotion/react";
 import React from "react";
 import { FaRegStar } from "react-icons/fa";
+import * as C from "utils/constants";
 
 const getBookProps = (book) => {
   return {
@@ -49,7 +50,7 @@ function BookCard({ book }) {
             objectFit: "cover",
             borderRadius: "5px",
           }}
-          src={thumbnail}
+          src={thumbnail || C.IMAGE_BACKUP}
           alt="book"
         />
       </div>

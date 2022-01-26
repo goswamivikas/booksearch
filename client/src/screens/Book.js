@@ -97,110 +97,116 @@ function Book() {
   };
   if (!book) return <div>Loading Book..</div>;
   return (
-    <div
-      css={{
-        // border: "1px solid green",
-        display: "grid",
-        gap: "1rem",
-        width: "100vw",
-        padding: "0.5rem",
-        gridTemplateColumns: "1fr 1fr",
-        gridTemplateAreas:
-          "'card card' 'description description' 'bookinfo bookinfo'",
-        "@media (min-width: 660px)": {
-          gridTemplateAreas: "'card bookinfo' 'description description'",
-        },
-      }}
-    >
+    <div css={{ display: "flex", justifyContent: "center" }}>
       <div
         css={{
-          border: "",
+          // border: "1px solid green",
           display: "grid",
-          height: "10rem",
-          gridTemplateColumns: "40% 60%",
-          borderRadius: "5px",
-          justifyItems: "center",
-          gridColumn: "1 / 3",
-          gridArea: "card",
-        }}
-      >
-        <div css={{ border: "", height: "inherit", width: "6rem" }}>
-          <img
-            css={{
-              height: "100%",
-              maxWidth: "100%",
-              objectFit: "cover",
-              borderRadius: "5px",
-            }}
-            src={thumbnail}
-            alt="book"
-          />
-        </div>
-        <div css={{ border: "", padding: "1rem", position: "relative" }}>
-          <h4 css={{ padding: "", color: "#2A293E", fontWeight: "400" }}>
-            {title}
-          </h4>
-          <p
-            css={{
-              fontWeight: "normal",
-              fontSize: "13px",
-              overflow: "hidden",
-              color: "#3C4043",
-              padding: "2px 0px",
-            }}
-          >
-            {subtitle?.substring(0, 100)}
-          </p>
-          <p css={{ color: "#1A73E8", fontSize: "14px", padding: "5px 0px" }}>
-            {authors?.slice(0, 2)?.join(", ")}
-          </p>
-          <div
-            css={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: "0.5rem",
-              width: "8rem",
-              position: "absolute",
-              bottom: "1rem",
-            }}
-          >
-            {getReviewSummaryEl()}
-            <div css={{ borderRight: "1px solid grey", height: "20px" }}></div>
-            {getPageCountEl()}
-          </div>
-        </div>
-      </div>
-      <div
-        css={{
-          borderTop: "1px solid #E7E7EA",
-          paddingTop: "1rem",
-          fontSize: "15px",
-          gridColumn: "1 / 3",
-          gridArea: "description",
-        }}
-      >
-        {description ? parse(description) : "No Description Available"}
-      </div>
-      <div
-        css={{
-          borderTop: "1px solid grey",
-          paddingTop: "1rem",
-          fontSize: "15px",
-          gridColumn: "1 / 3",
-          gridArea: "bookinfo",
+          gap: "1rem",
+          width: "100vw",
+          padding: "2rem",
+          maxWidth: "820px",
+          gridTemplateColumns: "1fr 1fr",
+          gridTemplateAreas:
+            "'card card' 'description description' 'bookinfo bookinfo'",
           "@media (min-width: 660px)": {
-            borderTop: "0",
-            borderLeft: "0.1px solid #E7E7EA",
-            padding: "1rem",
+            gridTemplateAreas: "'card bookinfo' 'description description'",
           },
         }}
       >
-        <h4>Book Info</h4>
-        {infoItem("Publisher", book?.volumeInfo?.publisher)}
-        {infoItem("Publish Date", book?.volumeInfo?.publishedDate)}
-        {infoItem("Category", book?.volumeInfo?.categories[0])}
-        {infoItem("Language", languageNames.of(book?.volumeInfo?.language))}
+        <div
+          css={{
+            border: "",
+            display: "grid",
+            height: "10rem",
+            gridTemplateColumns: "40% 60%",
+            borderRadius: "5px",
+            justifyItems: "center",
+            gridColumn: "1 / 3",
+            gridArea: "card",
+          }}
+        >
+          <div css={{ border: "", height: "inherit", width: "6rem" }}>
+            <img
+              css={{
+                height: "100%",
+                maxWidth: "100%",
+                objectFit: "cover",
+                borderRadius: "5px",
+              }}
+              src={thumbnail}
+              alt="book"
+            />
+          </div>
+          <div css={{ border: "", padding: "1rem", position: "relative" }}>
+            <h4 css={{ padding: "", color: "#2A293E", fontWeight: "400" }}>
+              {title}
+            </h4>
+            <p
+              css={{
+                fontWeight: "normal",
+                fontSize: "13px",
+                overflow: "hidden",
+                color: "#3C4043",
+                padding: "2px 0px",
+              }}
+            >
+              {subtitle?.substring(0, 100)}
+            </p>
+            <p css={{ color: "#1A73E8", fontSize: "14px", padding: "5px 0px" }}>
+              {authors?.slice(0, 2)?.join(", ")}
+            </p>
+            <div
+              css={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "0.5rem",
+                width: "8rem",
+                position: "absolute",
+                bottom: "1rem",
+              }}
+            >
+              {getReviewSummaryEl()}
+              <div
+                css={{ borderRight: "1px solid grey", height: "20px" }}
+              ></div>
+              {getPageCountEl()}
+            </div>
+          </div>
+        </div>
+        <div
+          css={{
+            borderTop: "1px solid #E7E7EA",
+            paddingTop: "1rem",
+            fontSize: "15px",
+            gridColumn: "1 / 3",
+            gridArea: "description",
+            textAlign: "justify",
+          }}
+        >
+          {description ? parse(description) : "No Description Available"}
+        </div>
+        <div
+          css={{
+            borderTop: "1px solid #E7E7EA",
+            paddingTop: "1rem",
+            fontSize: "15px",
+            gridColumn: "1 / 3",
+            gridArea: "bookinfo",
+            "@media (min-width: 660px)": {
+              borderTop: "0",
+              borderLeft: "0.1px solid #E7E7EA",
+              padding: "1rem",
+            },
+          }}
+        >
+          <h4>Book Info</h4>
+          {infoItem("Publisher", book?.volumeInfo?.publisher)}
+          {infoItem("Publish Date", book?.volumeInfo?.publishedDate)}
+          {infoItem("Category", book?.volumeInfo?.categories[0])}
+          {infoItem("Language", languageNames.of(book?.volumeInfo?.language))}
+        </div>
       </div>
     </div>
   );
@@ -211,7 +217,7 @@ const infoItem = (key, value) => {
     <div
       css={{ display: "flex", padding: "5px", justifyContent: "space-between" }}
     >
-      <p>{key}</p>
+      <p css={{ paddingRight: "2rem" }}>{key}</p>
       <p>{value}</p>
     </div>
   );

@@ -58,7 +58,6 @@ export default function Home() {
           name="search"
           onChange={handleInputChange}
           value={value}
-          autoComplete="off"
           css={{
             border: "1px solid #f1f1f4",
             lineHeight: 1.5,
@@ -81,6 +80,23 @@ export default function Home() {
           <BsSearch css={{}}></BsSearch>
         </button>
       </form>
+      {!books && !queried && value === "" ? (
+        <div
+          css={{
+            width: "100%",
+            display: "flex",
+            paddingTop: "20vh",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "4rem",
+            color: "#E2E2E2",
+          }}
+        >
+          <p>booksearch</p>
+          <p>app</p>
+        </div>
+      ) : null}
       {books?.totalItems > 0 ? (
         <>
           <p css={{ padding: "1rem", fontSize: "12px", color: "grey" }}>
